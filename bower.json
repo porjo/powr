@@ -1,0 +1,35 @@
+{
+  "name": "powr",
+  "description": "PowerDNS API Frontend",
+  "main": [
+    "./src/app.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "screenshots",
+    "node_modules",
+    "bower_components",
+    "test*",
+    "demo*",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+    "angular": "1.3.x",
+    "angular-resource": "1.3.x",
+    "angular-cookies": "1.3.x",
+    "angular-animate": "1.3.x",
+    "angular-sanitize": "1.3.x",
+    "angular-bootstrap": "latest",
+    "angular-ui-router": "latest",
+    "bootstrap": "latest"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.3.x"
+  },
+  "private": true,
+  "resolutions": {
+    "angular": ">=1.2.0"
+  }
+}

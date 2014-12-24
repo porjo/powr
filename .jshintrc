@@ -1,0 +1,32 @@
+{
+        "white": false,
+        "smarttabs": true,
+        "strict": false,
+	"multistr": true,
+        "globals" : {
+                "$" : false,
+                "angular" : false,
+                "browser" : false,
+                "repeater" : false,
+                "element" : false,
+                "inject" : false,
+                "afterEach" : false,
+                "beforeEach" : false,
+                "confirm" : false,
+                "context" : false,
+                "describe" : false,
+                "expect" : false,
+                "it" : false,
+                "jasmine" : false,
+                "JSHINT" : false,
+                "module": false,
+                "mostRecentAjaxRequest": false,
+                "moment": false,
+                "qq" : false,
+                "runs" : false,
+                "spyOn" : false,
+                "spyOnEvent" : false,
+                "waitsFor" : false,
+                "xdescribe" : false
+        }
+}
