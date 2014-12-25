@@ -4,14 +4,14 @@ var appServices = angular.module('appServices', ['ngResource']);
 
 appServices.service('api', function($rootScope, $resource, appConfig){
 
-	//this.Zones = $resource(appConfig.apiURL + '/servers/:server/zones' + '?_callback=JSON_CALLBACK', 
 	this.Zones = $resource(appConfig.apiURL + '/servers/:server/zones/:zone',
-						   {}, {
-							   /* Custom methods */
-							   update: {method:'PUT'},
-							   //fetch: {method: 'JSONP', isArray: true},
-						   });
-
+	   {}, {
+		   /* Custom methods */
+	   });
+	this.Servers = $resource(appConfig.apiURL + '/servers/:server',
+	   {}, {
+		   /* Custom methods */
+	   });
 });
 
 appServices.factory('authInterceptor', function ($rootScope, $q, $window, appConfig) {

@@ -101,6 +101,7 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
+	mux.HandleFunc("/servers", pdns.ServeHTTP)
 	mux.HandleFunc("/servers/", pdns.ServeHTTP)
 
 	if *stripPrefix != "" {

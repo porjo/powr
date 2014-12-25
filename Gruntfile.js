@@ -42,7 +42,6 @@ module.exports = function(grunt) {
 					context : {
 						jsname : '<%= jsname %>.js',
 						project : '<%= pkg.name %>',
-						reloader : '<script src="http://127.0.0.1:8000/js"></script>',
 					}
 				}
 			},
@@ -53,7 +52,6 @@ module.exports = function(grunt) {
 					context : {
 						jsname : '<%= jsname %>.min.js',
 						project : '<%= pkg.name %>',
-						reloader : '',
 					}
 				}
 			}
