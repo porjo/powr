@@ -11,8 +11,8 @@
 	]);
 
 	app.constant('appConfig', {
-		apiURL:  'http://localhost',
-		apiKey:  'changeme',
+		//apiURL:  'http://localhost',
+		apiURL:  '',
 	});
 
 	app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -30,7 +30,7 @@
 	});
 
 	app.config(function ($httpProvider) {
-		$httpProvider.interceptors.push('authInterceptor');
+		//$httpProvider.interceptors.push('authInterceptor');
 	});
 
 }());
