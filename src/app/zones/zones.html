@@ -1,8 +1,27 @@
-<h1>Zones</h1>
+<h2>Zones</h2>
 
-<div ng-repeat="zone in zones">
-	{{zone}}
-</div>
+<div ng-show="errMsg" class="alert alert-danger" role="alert">{{errMsg}}</div>
+
+<table class="table table-striped">
+	<tr>
+		<thead>
+			<th>Name</th>
+			<th>Kind</th>
+			<th>Serial</th>
+			<th>Dnssec</th>
+			<th>Masters</th>
+		</thead>
+	</tr>
+	<tbody>
+	<tr ng-repeat="zone in zones" ng-click="loadZone(zone)" class="clickable">
+		<td>{{zone.name}}</td>
+		<td>{{zone.kind}}</td>
+		<td>{{zone.serial}}</td>
+		<td>{{zone.dnssec}}</td>
+		<td>{{zone.masters}}</td>
+	</tr>
+	</tbody>
+</table>
 
 <div ui-view></div>
 

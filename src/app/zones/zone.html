@@ -1,4 +1,26 @@
+<h3>{{ zone.name }}</h3>
 
-Zone details here
+<table class="table table-striped">
+	<tr>
+		<thead>
+			<th ng-click="orderByField='name'; reverseSort = !reverseSort" ng-class=">Name</th>
+			<th ng-click="orderByField='type'; reverseSort = !reverseSort">Type</th>
+			<th ng-click="orderByField='ttl'; reverseSort = !reverseSort">ttl</th>
+			<th ng-click="orderByField='priority'; reverseSort = !reverseSort">priority</th>
+			<th ng-click="orderByField='disabled'; reverseSort = !reverseSort">disabled</th>
+			<th ng-click="orderByField='content'; reverseSort = !reverseSort">content</th>
+		</thead>
+	</tr>
+	<tbody>
+	<tr ng-repeat="record in zone.records | orderBy:orderByField:reverseSort" ng-click="loadZone(zone)" class="clickable">
+		<td>{{record.name}}</td>
+		<td>{{record.type}}</td>
+		<td>{{record.ttl}}</td>
+		<td>{{record.priority}}</td>
+		<td>{{record.disabled}}</td>
+		<td>{{record.content}}</td>
+	</tr>
+	</tbody>
+</table>
 
 

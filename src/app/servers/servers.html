@@ -1,8 +1,17 @@
 <h1>Servers</h1>
 
-<div ng-repeat="server in servers">
-	{{server}}
-</div>
+<table class="table table-striped">
+	<tr>
+		<thead>
+			<th>Name</th>
+		</thead>
+	</tr>
+	<tbody>
+	<tr ng-repeat="server in servers" ng-click="loadServer(server)" class="clickable">
+		<td>{{server.id}}</td>
+	</tr>
+	</tbody>
+</table>
 
 <div ui-view></div>
 

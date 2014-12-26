@@ -19,7 +19,7 @@
 	app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
 		// Default route
-		$urlRouterProvider.otherwise("/servers/localhost/zones");
+		$urlRouterProvider.otherwise("/servers");
 		
 		$stateProvider
 
