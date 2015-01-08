@@ -1,0 +1,7 @@
+<ul class="breadcrumbs">
+	<li ng-repeat="state in $navigationState.currentState.path">
+	<span>
+		<a ui-sref="{{ state.name }}">{{$navigationState.getDisplayName(state, $navigationState.params)}}</a>
+	</span>
+	</li>
+</ul>

@@ -3,7 +3,7 @@
 <table class="table table-striped">
 	<tr>
 		<thead>
-			<th ng-click="orderByField='name'; reverseSort = !reverseSort" ng-class=">Name</th>
+			<th ng-click="orderByField='name'; reverseSort = !reverseSort">Name</th>
 			<th ng-click="orderByField='type'; reverseSort = !reverseSort">Type</th>
 			<th ng-click="orderByField='ttl'; reverseSort = !reverseSort">ttl</th>
 			<th ng-click="orderByField='priority'; reverseSort = !reverseSort">priority</th>
@@ -12,7 +12,7 @@
 		</thead>
 	</tr>
 	<tbody>
-	<tr ng-repeat="record in zone.records | orderBy:orderByField:reverseSort" ng-click="loadZone(zone)" class="clickable">
+	<tr ng-repeat="record in zone.records | orderBy:orderByField:reverseSort" class="clickable">
 		<td>{{record.name}}</td>
 		<td>{{record.type}}</td>
 		<td>{{record.ttl}}</td>

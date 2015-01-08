@@ -6,51 +6,83 @@
 	/* App Module */
 	var app = angular.module('app', [
 		'ui.router',
+		'appDirectives',
 		'appServices',
 		'serverControllers',
 		'zoneControllers',
 	]);
 
 	app.constant('appConfig', {
-		//apiURL:  'http://localhost',
 		apiURL:  '',
 	});
 
 	app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
 		// Default route
-		$urlRouterProvider.otherwise("/servers");
+		$urlRouterProvider.otherwise("/pdns");
 		
 		$stateProvider
 
-		.state('servers.server.zones.zone', {
+		.state('p.servers.server.zones.zone', {
 			url: '/:zone',
-			templateUrl: 'zones/zone.html',
-			controller: 'ZoneCtrl',
+			views: {
+				'main@p': {
+					templateUrl: 'zones/zone.html',
+					controller: 'ZoneCtrl',
+				}
+			},
+			data: {
+				name: 'zone'
+			}
 		})
 
-		.state('servers.server.zones', {
+		.state('p.servers.server.zones', {
 			url: '/zones',
-			templateUrl: 'zones/zones.html',
-			controller: 'ZoneCtrl',
+			views: {
+				'main@p': {
+					templateUrl: 'zones/zones.html',
+					controller: 'ZoneCtrl',
+				}
+			},
+			data: {
+				name: "zones"
+			}
 		})
 
-		.state('servers.server', {
+		.state('p.servers.server', {
 			url: '/:server',
-			templateUrl: 'servers/server.html',
-			controller: 'ServerCtrl',
+			views: {
+				'main@p': {
+					template: '',
+					controller: 'ServerCtrl',
+				}
+			},
+			data: {
+				name: 'server'
+			}
 		})
 
-		.state('servers', {
+		.state('p.servers', {
 			url: '/servers',
-			templateUrl: 'servers/servers.html',
-			controller: 'ServerCtrl',
+			views: {
+				'main@p': {
+					templateUrl: 'servers/servers.html',
+					controller: 'ServerCtrl',
+				}
+			},
+			data: {
+				name: 'servers'
+			}
+		})
+
+		.state('p', {
+			url: '/pdns',
+			templateUrl: 'home.html',
+			data: {
+				name: 'home'
+			}
 		});
 
-	});
-
-	app.config(function ($httpProvider) {
-		//$httpProvider.interceptors.push('authInterceptor');
 	});
 
 }());
