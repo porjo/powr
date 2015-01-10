@@ -3,6 +3,33 @@ angular.module('zoneControllers', [] )
 
 .controller('ZoneCtrl', function($scope, $state, $stateParams, appConfig, api) {
 
+	var rrsets = [
+			{
+			"name": 'blah.mapstrata.com',
+			"type": 'A',
+			"changetype": 'REPLACE',
+			"records": [
+				{
+				"content": '192.168.1.5',
+				"name": 'blah.mapstrata.com',
+				"ttl": 300,
+				"type": 'A',
+				"priority": 0,
+				"disabled": false
+			}],
+			"comments": [
+			//	{
+			//	"account": "ian",
+			//	"content": "test comment"
+			//}
+			]
+		}
+		];
+
+	var zone = new api.Zones();
+	zone.rrsets = rrsets;
+	zone.$patch({zone: 'mapstrata.com', server: 'localhost'});
+
 	if($state.is('p.servers.server.zones')) {
 		$scope.server = $stateParams.server;
 		$scope.zones = api.Zones.query({ server: $stateParams.server }, function(data) {
