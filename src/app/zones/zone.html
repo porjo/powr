@@ -1,8 +1,16 @@
+
+
 <h3>{{ zone.name }}</h3>
 
+<p>
+<label>Filter Keyword:</label>
+<input type="text" ng-model="query">
+</p>
+
+<form name="zoneForm">
 <table class="table table-striped">
 	<tr>
-		<thead>
+		<thead class="clickable">
 			<th ng-click="orderByField='name'; reverseSort = !reverseSort">Name</th>
 			<th ng-click="orderByField='type'; reverseSort = !reverseSort">Type</th>
 			<th ng-click="orderByField='ttl'; reverseSort = !reverseSort">ttl</th>
@@ -12,15 +20,16 @@
 		</thead>
 	</tr>
 	<tbody>
-	<tr ng-repeat="record in zone.records | orderBy:orderByField:reverseSort" class="clickable">
-		<td>{{record.name}}</td>
-		<td>{{record.type}}</td>
-		<td>{{record.ttl}}</td>
-		<td>{{record.priority}}</td>
-		<td>{{record.disabled}}</td>
-		<td>{{record.content}}</td>
+	<tr ng-repeat="record in zone.records | filter:query | orderBy:orderByField:reverseSort" class="clickable">
+		<td contenteditable record-name data-zone="zone.name" ng-model="record.name">{{record.name}}</td>
+		<td contenteditable ng-model="record.type">{{record.type}}</td>
+		<td contenteditable integer ng-model="record.ttl">{{record.ttl}}</td>
+		<td contenteditable integer ng-model="record.priority">{{record.priority}}</td>
+		<td contenteditable ng-model="record.disabled">{{record.disabled}}</td>
+		<td contenteditable ng-model="record.content">{{record.content}}</td>
 	</tr>
 	</tbody>
 </table>
+</form>
 
-
+{{zone.records}}

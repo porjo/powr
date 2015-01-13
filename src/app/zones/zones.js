@@ -3,6 +3,7 @@ angular.module('zoneControllers', [] )
 
 .controller('ZoneCtrl', function($scope, $state, $stateParams, appConfig, api) {
 
+	/*
 	var rrsets = [
 			{
 			"name": 'blah.mapstrata.com',
@@ -30,6 +31,9 @@ angular.module('zoneControllers', [] )
 	zone.rrsets = rrsets;
 	zone.$patch({zone: 'mapstrata.com', server: 'localhost'});
 
+   */
+
+
 	if($state.is('p.servers.server.zones')) {
 		$scope.server = $stateParams.server;
 		$scope.zones = api.Zones.query({ server: $stateParams.server }, function(data) {
@@ -40,6 +44,7 @@ angular.module('zoneControllers', [] )
 	} else if($state.is('p.servers.server.zones.zone')) {
 		$scope.zone = api.Zones.get({ server: $stateParams.server, zone: $stateParams.zone }, function(data) {
 			// success
+			console.log("zone records", $scope.zone);
 		}, function(data) {
 			$scope.errMsg = "Error loading records for zone '" + $stateParams.zone + "'. Msg: " + data.statusText;
 		});

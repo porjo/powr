@@ -21,7 +21,6 @@
     "angular-cookies": "1.3.x",
     "angular-animate": "1.3.x",
     "angular-sanitize": "1.3.x",
-    "angular-bootstrap": "latest",
     "angular-ui-router": "latest",
     "bootstrap": "latest"
   },
