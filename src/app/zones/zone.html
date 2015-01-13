@@ -21,15 +21,18 @@
 	</tr>
 	<tbody>
 	<tr ng-repeat="record in zone.records | filter:query | orderBy:orderByField:reverseSort" class="clickable">
-		<td contenteditable record-name data-zone="zone.name" ng-model="record.name">{{record.name}}</td>
+		<td contenteditable record-name data-zone="zone.name" name="recordName" ng-model="record.name">{{record.name}}</td>
 		<td contenteditable ng-model="record.type">{{record.type}}</td>
 		<td contenteditable integer ng-model="record.ttl">{{record.ttl}}</td>
 		<td contenteditable integer ng-model="record.priority">{{record.priority}}</td>
-		<td contenteditable ng-model="record.disabled">{{record.disabled}}</td>
-		<td contenteditable ng-model="record.content">{{record.content}}</td>
+		<td><input type="checkbox" ng-model="record.disabled"></td>
+		<td contenteditable record-content data-type="record.type" ng-model="record.content">{{record.content}}</td>
 	</tr>
 	</tbody>
 </table>
 </form>
 
-{{zone.records}}
+<div ng-messages="zoneForm.recordName.$error">
+	<div ng-message="recordName">Please fix the recordname</div>
+</div>
+{{zoneForm}}
