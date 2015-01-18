@@ -6,8 +6,9 @@ appServices.service('api', function($rootScope, $resource, appConfig){
 
 	this.Zones = $resource(appConfig.apiURL + '/servers/:server/zones/:zone',
 	   {zone: '@id'}, {
-		   'patch': {method: "PATCH"}
 		   /* Custom methods */
+		   'patch': {method: "PATCH"},
+		   //not yet implented: 'notify': {method: "PUT", url: appConfig.apiURL + '/servers/:server/zones/:zone/notify'}
 	   });
 	this.Servers = $resource(appConfig.apiURL + '/servers/:server',
 	   {}, {

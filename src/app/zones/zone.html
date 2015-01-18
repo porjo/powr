@@ -31,7 +31,8 @@
 		</table>
 
 		<button class="btn btn-success" ng-click="addRecord()">Add</button>
-		<button class="btn btn-primary" ng-click="confirm()" ng-disabled="zoneForm.$invalid">Next</button>
+		<button class="btn btn-primary" ng-click="confirm()" ng-disabled="zoneForm.$invalid || zoneForm.$pristine">Next</button>
+
 	</form>
 </div>
 <div ng-show="rrsets.length">

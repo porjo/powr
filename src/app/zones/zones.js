@@ -88,23 +88,16 @@ angular.module('zoneControllers', [] )
 
 	$scope.addRecord = function() {
 		var record = {
-			'content': '192.168.1.1',
-			'name': '',
+			'content': 'change me',
+			'name': $scope.zone.name,
 			'ttl': 86400,
 			'type': 'A',
 			'disabled': false,
-			'priority': 0
+			'priority': 0,
+			'new': true
 		};
 
 		$scope.zone.records.push(record);
-
-		$timeout(function() {
-			var key = 'name-' + ($scope.zone.records.length-1).toString();
-			console.log("addRecord", $scope.zoneForm[key]);
-			$scope.zoneForm[key].$setViewValue($scope.zone.name);
-			console.log("record", $scope.zone.records[$scope.zone.records.length-1]);
-			$scope.zone.records[$scope.zone.records.length-1].name = $scope.zone.name;
-		});
 	};
 
 	$scope.save = function() {
@@ -112,6 +105,8 @@ angular.module('zoneControllers', [] )
 			var zone = new api.Zones();
 			zone.rrsets = $scope.rrsets;
 			zone.$patch({zone: $stateParams.zone , server: $stateParams.server},function(data) {
+				$scope.rrsets = [];
+				$state.reload();
 				console.log("save success", data);
 			});
 		}

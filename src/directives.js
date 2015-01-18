@@ -21,8 +21,10 @@ appDirectives.directive("contenteditable", function() {
 	};
 });
 
-var INTEGER_REGEXP = /^\-?\d+$/;
+//var INTEGER_REGEXP = /^\-?\d+$/;
 var HOSTNAME_REGEXP = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/;
+// TODO: more complete IPv4 + IPv6 regex
+var IP_REGEXP = /^[0-9A-Fa-f]+[:.]+[0-9A-Fa-f\.:]+$/;
 
 var editableTrim = function(text) {
 	if (typeof text == "string") {
@@ -37,24 +39,12 @@ appDirectives.directive('integer', function() {
 	return {
 		require: 'ngModel',
 		link: function(scope, elm, attrs, ctrl) {
-			ctrl.$validators.integer = function(modelValue, viewValue) {
-				if (ctrl.$isEmpty(modelValue)) {
-					return true;
+			ctrl.$parsers.unshift(function(viewValue){
+				if( ctrl.$isEmpty(viewValue) ) {
+					return 0;
 				}
-
-				viewValue = editableTrim(viewValue);
-				if (INTEGER_REGEXP.test(viewValue)) {
-					var val = parseInt(viewValue);
-					if( val !== 0 ){
-						ctrl.$setViewValue(parseInt(viewValue));
-					}
-					// it is valid
-					return true;
-				}
-
-				// it is invalid
-				return false;
-			};
+				return parseInt(viewValue, 10);
+			});
 		}
 	};
 });
@@ -72,10 +62,12 @@ appDirectives.directive('recordName', function() {
 				}
 
 				viewValue = editableTrim(viewValue);
-				var re = new RegExp("^(?:.+\.)?"+scope.zone+"$",'g');
-				if (re.test(viewValue)) {
-					ctrl.$setViewValue(viewValue);
-					return true;
+				if (HOSTNAME_REGEXP.test(viewValue)) {
+					var re = new RegExp("^(?:.+\.)?"+scope.zone+"$",'g');
+					if (re.test(viewValue)) {
+						ctrl.$setViewValue(viewValue);
+						return true;
+					}
 				}
 
 				// it is invalid
@@ -111,6 +103,12 @@ appDirectives.directive('recordContent', function($compile) {
 							return true;
 						}
 						break;
+					case "A":
+						if (IP_REGEXP.test(viewValue)) {
+							ctrl.$setViewValue(viewValue);
+							return true;
+						}
+						break;
 					default:
 						ctrl.$setViewValue(viewValue);
 						return true;
@@ -124,6 +122,7 @@ appDirectives.directive('recordContent', function($compile) {
 	};
 });
 
+/*
 appDirectives.directive('errorInfo', function() {
 	return {
 		restrict: 'A',
@@ -131,6 +130,8 @@ appDirectives.directive('errorInfo', function() {
 		template: '<div class="error-info"><span class="glyphicon glyphicon-remove-circle"></span>{{msg}}</div>'
 	};
 });
+
+*/
 
 // Credit to: Mauro Servienti, http://milestone.topics.it/2014/03/angularjs-ui-router-and-breadcrumbs.html
 appDirectives.directive('breadcrumbs', function () {
