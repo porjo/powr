@@ -17,10 +17,23 @@ html {
 
 .clickable {
 	cursor: pointer;
+
 }
 
-.clickable td {
+.editable td {
+
 	cursor: text;
+	&:hover {
+		background-color: red;
+	}
+}
+
+[contenteditable]:active,
+[contenteditable]:focus{
+	border:none;
+	outline:none;
+	box-shadow:inset 0 0 2px 0 #222;
+	background-color: none;
 }
 
 td.ng-dirty {

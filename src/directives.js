@@ -44,7 +44,10 @@ appDirectives.directive('integer', function() {
 
 				viewValue = editableTrim(viewValue);
 				if (INTEGER_REGEXP.test(viewValue)) {
-					ctrl.$setViewValue(parseInt(viewValue));
+					var val = parseInt(viewValue);
+					if( val !== 0 ){
+						ctrl.$setViewValue(parseInt(viewValue));
+					}
 					// it is valid
 					return true;
 				}

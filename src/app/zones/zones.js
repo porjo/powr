@@ -53,4 +53,36 @@ angular.module('zoneControllers', [] )
 	$scope.loadZone = function(zone) {
 		$state.go('.zone', {zone: zone.name});
 	};
+
+	$scope.confirm = function() {
+		$scope.rrsets = [];
+		var idxs = [];
+		angular.forEach($scope.zoneForm, function(value, key) {
+			if(key[0] == '$') return;
+			if(!value.$pristine) {
+				var idx = key.split('-')[1];
+				if(idxs.indexOf(idx) === -1) {
+					idxs.push(idx);
+				}
+			}
+		});
+
+		angular.forEach(idxs, function(idx) {
+			$scope.rrsets.push({
+				"name": $scope.zone.records[idx].name,
+				"type": $scope.zone.records[idx].type,
+				"changetype": 'REPLACE',
+				"records": [
+					{
+					"content": $scope.zone.records[idx].content,
+					"name": $scope.zone.records[idx].name,
+					"ttl": $scope.zone.records[idx].ttl,
+					"type": $scope.zone.records[idx].type,
+					"disabled": $scope.zone.records[idx].disabled,
+					"priority": $scope.zone.records[idx].priority
+				}]
+			});
+		});
+		console.log("rrsets", $scope.rrsets);
+	};
 });

@@ -1,38 +1,61 @@
-
-
 <h3>{{ zone.name }}</h3>
 
-<p>
-<label>Filter Keyword:</label>
-<input type="text" ng-model="query">
-</p>
+<div ng-hide="rrsets.length">
+	<p>
+	<label>Filter Keyword:</label>
+	<input type="text" ng-model="query">
+	</p>
 
-<form name="zoneForm">
-<table class="table table-striped">
-	<tr>
-		<thead class="clickable">
-			<th ng-click="orderByField='name'; reverseSort = !reverseSort">Name</th>
-			<th ng-click="orderByField='type'; reverseSort = !reverseSort">Type</th>
-			<th ng-click="orderByField='ttl'; reverseSort = !reverseSort">ttl</th>
-			<th ng-click="orderByField='priority'; reverseSort = !reverseSort">priority</th>
-			<th ng-click="orderByField='disabled'; reverseSort = !reverseSort">disabled</th>
-			<th ng-click="orderByField='content'; reverseSort = !reverseSort">content</th>
-		</thead>
-	</tr>
-	<tbody>
-	<tr ng-repeat="record in zone.records | filter:query | orderBy:orderByField:reverseSort" class="clickable">
-		<td contenteditable record-name data-zone="zone.name" name="recordName" ng-model="record.name">{{record.name}}</td>
-		<td contenteditable ng-model="record.type">{{record.type}}</td>
-		<td contenteditable integer ng-model="record.ttl">{{record.ttl}}</td>
-		<td contenteditable integer ng-model="record.priority">{{record.priority}}</td>
-		<td><input type="checkbox" ng-model="record.disabled"></td>
-		<td contenteditable record-content data-type="record.type" ng-model="record.content">{{record.content}}</td>
-	</tr>
-	</tbody>
-</table>
-</form>
+	<form name="zoneForm">
+		<table class="table table-striped">
+			<tr>
+				<thead class="clickable">
+					<th ng-click="orderByField='name'; reverseSort = !reverseSort">Name</th>
+					<th ng-click="orderByField='type'; reverseSort = !reverseSort">Type</th>
+					<th ng-click="orderByField='ttl'; reverseSort = !reverseSort">ttl</th>
+					<th ng-click="orderByField='priority'; reverseSort = !reverseSort">priority</th>
+					<th ng-click="orderByField='disabled'; reverseSort = !reverseSort">disabled</th>
+					<th ng-click="orderByField='content'; reverseSort = !reverseSort">content</th>
+				</thead>
+			</tr>
+			<tbody>
+			<tr ng-repeat="record in zone.records | filter:query | orderBy:orderByField:reverseSort" class="editable">
+				<td contenteditable record-name data-zone="zone.name" name="name-{{$index}}" ng-model="record.name">{{record.name}}</td>
+				<td contenteditable ng-model="record.type" name="type-{{$index}}">{{record.type}}</td>
+				<td contenteditable integer ng-model="record.ttl" name="ttl-{{$index}}">{{record.ttl}}</td>
+				<td contenteditable integer ng-model="record.priority" name="priority-{{$index}}">{{record.priority}}</td>
+				<td><input type="checkbox" ng-model="record.disabled" name="disabled-{{$index}}"></td>
+				<td contenteditable record-content data-type="record.type" ng-model="record.content" name="content-{{$index}}">{{record.content}}</td>
+			</tr>
+			</tbody>
+		</table>
 
-<div ng-messages="zoneForm.recordName.$error">
-	<div ng-message="recordName">Please fix the recordname</div>
+		<button class="btn btn-primary" ng-click="confirm()" ng-disabled="zoneForm.$invalid">Next</button>
+	</form>
 </div>
-{{zoneForm}}
+<div ng-show="rrsets.length">
+	<p>The following records will be updated:</p>
+	<table class="table table-striped">
+		<tr>
+			<thead>
+				<th ng-click="orderByField='name'; reverseSort = !reverseSort">Name</th>
+				<th ng-click="orderByField='type'; reverseSort = !reverseSort">Type</th>
+				<th ng-click="orderByField='ttl'; reverseSort = !reverseSort">ttl</th>
+				<th ng-click="orderByField='priority'; reverseSort = !reverseSort">priority</th>
+				<th ng-click="orderByField='disabled'; reverseSort = !reverseSort">disabled</th>
+				<th ng-click="orderByField='content'; reverseSort = !reverseSort">content</th>
+			</thead>
+		</tr>
+		<tbody>
+		<tr ng-repeat="rr in rrsets">
+			<td>{{rr.records[0].name}}</td>
+			<td>{{rr.records[0].type}}</td>
+			<td>{{rr.records[0].ttl}}</td>
+			<td>{{rr.records[0].priority}}</td>
+			<td><span class="glyphicon" ng-class="{'glyphicon-ok-sign': rr.records[0].disabled, 'glyphicon-remove-sign': !rr.records[0].disabled}"></span></td>
+			<td>{{rr.records[0].content}}</td>
+		</tr>
+		</tbody>
+	</table>
+	<button class="btn btn-primary" ng-click="rrsets=[]">Back</button>
+</div>
