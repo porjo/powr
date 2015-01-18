@@ -1,7 +1,7 @@
 
 angular.module('zoneControllers', [] )
 
-.controller('ZoneCtrl', function($scope, $state, $stateParams, appConfig, api) {
+.controller('ZoneCtrl', function($scope, $state, $stateParams, $timeout, appConfig, api) {
 
 	/*
 	var rrsets = [
@@ -69,20 +69,51 @@ angular.module('zoneControllers', [] )
 
 		angular.forEach(idxs, function(idx) {
 			$scope.rrsets.push({
-				"name": $scope.zone.records[idx].name,
-				"type": $scope.zone.records[idx].type,
-				"changetype": 'REPLACE',
-				"records": [
+				'name': $scope.zone.records[idx].name,
+				'type': $scope.zone.records[idx].type,
+				'changetype': 'REPLACE',
+				'records': [
 					{
-					"content": $scope.zone.records[idx].content,
-					"name": $scope.zone.records[idx].name,
-					"ttl": $scope.zone.records[idx].ttl,
-					"type": $scope.zone.records[idx].type,
-					"disabled": $scope.zone.records[idx].disabled,
-					"priority": $scope.zone.records[idx].priority
+					'content': $scope.zone.records[idx].content,
+					'name': $scope.zone.records[idx].name,
+					'ttl': $scope.zone.records[idx].ttl,
+					'type': $scope.zone.records[idx].type,
+					'disabled': $scope.zone.records[idx].disabled,
+					'priority': $scope.zone.records[idx].priority
 				}]
 			});
 		});
-		console.log("rrsets", $scope.rrsets);
+		console.log('rrsets', $scope.rrsets);
+	};
+
+	$scope.addRecord = function() {
+		var record = {
+			'content': '192.168.1.1',
+			'name': '',
+			'ttl': 86400,
+			'type': 'A',
+			'disabled': false,
+			'priority': 0
+		};
+
+		$scope.zone.records.push(record);
+
+		$timeout(function() {
+			var key = 'name-' + ($scope.zone.records.length-1).toString();
+			console.log("addRecord", $scope.zoneForm[key]);
+			$scope.zoneForm[key].$setViewValue($scope.zone.name);
+			console.log("record", $scope.zone.records[$scope.zone.records.length-1]);
+			$scope.zone.records[$scope.zone.records.length-1].name = $scope.zone.name;
+		});
+	};
+
+	$scope.save = function() {
+		if($scope.rrsets.length > 0) {
+			var zone = new api.Zones();
+			zone.rrsets = $scope.rrsets;
+			zone.$patch({zone: $stateParams.zone , server: $stateParams.server},function(data) {
+				console.log("save success", data);
+			});
+		}
 	};
 });

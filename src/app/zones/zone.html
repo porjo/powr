@@ -30,6 +30,7 @@
 			</tbody>
 		</table>
 
+		<button class="btn btn-success" ng-click="addRecord()">Add</button>
 		<button class="btn btn-primary" ng-click="confirm()" ng-disabled="zoneForm.$invalid">Next</button>
 	</form>
 </div>
@@ -57,5 +58,6 @@
 		</tr>
 		</tbody>
 	</table>
-	<button class="btn btn-primary" ng-click="rrsets=[]">Back</button>
+	<button class="btn btn-success" ng-click="rrsets=[]"><span class="glyphicon glyphicon-chevron-left"></span>Back</button>
+	<button class="btn btn-primary" ng-click="save()">Save</button>
 </div>
