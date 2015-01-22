@@ -9,6 +9,8 @@ Current features:
 - view zones + records
 - add, delete, edit records
 
+<a href="http://porjo.github.io/powr/screenshot.png"><img src="http://porjo.github.io/powr/screenshot.png" width="90%"></a>
+
 ### Web Server
 
 PowerDNS does not currently support CORS which means that AngularJS cannot talk directly to it. For this reason, Powr includes a simple web server to a) server static files b) proxy JSON API requests to PowerDNS backend.

@@ -78,7 +78,7 @@ appDirectives.directive('recordName', function() {
 });
 
 appDirectives.directive('recordType', function() {
-	var types = ["A", "SOA", "MX", "AAAA", "TXT", "CNAME"];
+	var types = ["NS", "A", "SOA", "MX", "AAAA", "TXT", "CNAME"];
 	return {
 		require: 'ngModel',
 		link: function(scope, elm, attrs, ctrl) {

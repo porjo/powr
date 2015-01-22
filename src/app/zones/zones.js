@@ -1,5 +1,5 @@
 
-angular.module('zoneControllers', [] )
+angular.module('zoneControllers', ['ngAnimate'] )
 
 .controller('ZoneCtrl', function($scope, $state, $stateParams, $timeout, appConfig, api) {
 
@@ -19,6 +19,12 @@ angular.module('zoneControllers', [] )
 			$scope.zone = data;
 			// success
 			console.log("zone records", $scope.zone);
+			$timeout(function() {
+				$scope.showHelp = true;
+				$timeout(function() {
+					$scope.showHelp = false;
+				},5000);
+			},500);
 		}, function(data) {
 			$scope.errMsg = "Error loading records for zone '" + $stateParams.zone + "'. Msg: " + data.statusText;
 		});

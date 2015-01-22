@@ -1,10 +1,13 @@
 <h3>{{ zone.name }}</h3>
 
 <div ng-hide="rrsets.length">
-	<p>
-	<label>Filter Keyword:</label>
-	<input type="text" ng-model="query">
-	</p>
+	<div class="edit-head">
+		<p>
+		<label>Filter Keyword:</label>
+		<input type="text" ng-model="query">
+		</p>
+		<p class="alert alert-info help-box slidedown" ng-show="showHelp"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;<em>Click on a cell to edit the contents</em></p>
+	</div>
 
 	<form name="zoneForm">
 		<table class="table table-striped">
