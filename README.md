@@ -2,7 +2,7 @@
 
 Web UI frontend for PowerDNS API interface
 
-**Work in progress**
+*Work in progress*
 
 Current features:
 
