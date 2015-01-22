@@ -2,6 +2,13 @@
 
 Web UI frontend for PowerDNS API interface
 
+**Work in progress**
+
+Current features:
+
+- view zones + records
+- add, delete, edit records
+
 ### Web Server
 
 PowerDNS does not currently support CORS which means that AngularJS cannot talk directly to it. For this reason, Powr includes a simple web server to a) server static files b) proxy JSON API requests to PowerDNS backend.
