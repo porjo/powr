@@ -9,7 +9,7 @@ Current features:
 - view zones + records
 - add, delete, edit records
 
-<a href="http://porjo.github.io/powr/screenshot.png"><img src="http://porjo.github.io/powr/screenshot.png" width="90%"></a>
+<a href="http://porjo.github.io/powr/screenshot2.png"><img src="http://porjo.github.io/powr/screenshot2.png" width="90%"></a>
 
 ### Web Server
 
