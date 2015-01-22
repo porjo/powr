@@ -77,6 +77,36 @@ appDirectives.directive('recordName', function() {
 	};
 });
 
+appDirectives.directive('recordType', function() {
+	var types = ["A", "SOA", "MX", "AAAA", "TXT", "CNAME"];
+	return {
+		require: 'ngModel',
+		link: function(scope, elm, attrs, ctrl) {
+			ctrl.$validators.recordType = function(modelValue, viewValue) {
+				if (ctrl.$isEmpty(modelValue)) {
+					return false;
+				}
+
+				viewValue = editableTrim(viewValue);
+				var match = false;
+				angular.forEach(types,function(val,key) {
+					if( viewValue === val ) {
+						match = true;
+					}
+				});
+
+				if(match) {
+					ctrl.$setViewValue(viewValue);
+					return true;
+				}
+
+				return false;
+
+			};
+		}
+	};
+});
+
 appDirectives.directive('recordContent', function($compile) {
 	return {
 		require: 'ngModel',

@@ -16,49 +16,68 @@
 					<th ng-click="orderByField='priority'; reverseSort = !reverseSort">priority</th>
 					<th ng-click="orderByField='disabled'; reverseSort = !reverseSort">disabled</th>
 					<th ng-click="orderByField='content'; reverseSort = !reverseSort">content</th>
+					<th ng-click="orderByField='content'; reverseSort = !reverseSort">Delete</th>
 				</thead>
 			</tr>
 			<tbody>
 			<tr ng-repeat="record in zone.records | filter:query | orderBy:orderByField:reverseSort" class="editable">
 				<td contenteditable record-name data-zone="zone.name" name="name-{{$index}}" ng-model="record.name">{{record.name}}</td>
-				<td contenteditable ng-model="record.type" name="type-{{$index}}">{{record.type}}</td>
+				<td contenteditable record-type ng-model="record.type" name="type-{{$index}}">{{record.type}}</td>
 				<td contenteditable integer ng-model="record.ttl" name="ttl-{{$index}}">{{record.ttl}}</td>
 				<td contenteditable integer ng-model="record.priority" name="priority-{{$index}}">{{record.priority}}</td>
-				<td><input type="checkbox" ng-model="record.disabled" name="disabled-{{$index}}"></td>
+				<td ng-class="{'ng-dirty': record.disabled}"><input type="checkbox" ng-model="record.disabled" name="disabled-{{$index}}"></td>
 				<td contenteditable record-content data-type="record.type" ng-model="record.content" name="content-{{$index}}">{{record.content}}</td>
+				<td ng-class="{'ng-dirty': record.delete}"><input type="checkbox" ng-model="record.delete" name="delete-{{$index}}"></td>
 			</tr>
 			</tbody>
 		</table>
 
-		<button class="btn btn-success" ng-click="addRecord()">Add</button>
-		<button class="btn btn-primary" ng-click="confirm()" ng-disabled="zoneForm.$invalid || zoneForm.$pristine">Next</button>
-
+		<p>
+			<button class="btn btn-success" ng-click="addRecord()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add</button>
+			<button class="btn btn-primary" ng-click="confirm()" ng-disabled="zoneForm.$invalid || zoneForm.$pristine">Next&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></button>
+		</p>
+		<p ng-show="edit.msg" class="alert alert-warning">{{edit.msg}}</p>
 	</form>
 </div>
 <div ng-show="rrsets.length">
-	<p>The following records will be updated:</p>
+	<p>The following changes will be made:</p>
 	<table class="table table-striped">
 		<tr>
 			<thead>
-				<th ng-click="orderByField='name'; reverseSort = !reverseSort">Name</th>
-				<th ng-click="orderByField='type'; reverseSort = !reverseSort">Type</th>
-				<th ng-click="orderByField='ttl'; reverseSort = !reverseSort">ttl</th>
-				<th ng-click="orderByField='priority'; reverseSort = !reverseSort">priority</th>
-				<th ng-click="orderByField='disabled'; reverseSort = !reverseSort">disabled</th>
-				<th ng-click="orderByField='content'; reverseSort = !reverseSort">content</th>
+				<th>Name</th>
+				<th>Type</th>
+				<th>ttl</th>
+				<th>priority</th>
+				<th>disabled</th>
+				<th>content</th>
 			</thead>
 		</tr>
 		<tbody>
-		<tr ng-repeat="rr in rrsets">
-			<td>{{rr.records[0].name}}</td>
-			<td>{{rr.records[0].type}}</td>
-			<td>{{rr.records[0].ttl}}</td>
-			<td>{{rr.records[0].priority}}</td>
-			<td><span class="glyphicon" ng-class="{'glyphicon-ok-sign': rr.records[0].disabled, 'glyphicon-remove-sign': !rr.records[0].disabled}"></span></td>
-			<td>{{rr.records[0].content}}</td>
+		<tr ng-show="replaceId.length" class="subtitle">
+			<th class="info" colspan=6>Update</th>
+		</tr>
+		<tr ng-repeat="idx in replaceId">
+			<td>{{zone.records[idx].name}}</td>
+			<td>{{zone.records[idx].type}}</td>
+			<td>{{zone.records[idx].ttl}}</td>
+			<td>{{zone.records[idx].priority}}</td>
+			<td><span class="glyphicon" ng-class="{'glyphicon-ok-sign': zone.records[idx].disabled, 'glyphicon-remove-sign': !zone.records[idx].disabled}"></span></td>
+			<td>{{zone.records[idx].content}}</td>
+		</tr>
+		<tr ng-show="delId.length" class="subtitle">
+			<th class="danger" colspan=6>Delete</th>
+		</tr>
+		<tr ng-repeat="idx in delId">
+			<td>{{zone.records[idx].name}}</td>
+			<td>{{zone.records[idx].type}}</td>
+			<td>{{zone.records[idx].ttl}}</td>
+			<td>{{zone.records[idx].priority}}</td>
+			<td><span class="glyphicon" ng-class="{'glyphicon-ok-sign': zone.records[idx].disabled, 'glyphicon-remove-sign': !zone.records[idx].disabled}"></span></td>
+			<td>{{zone.records[idx].content}}</td>
 		</tr>
 		</tbody>
 	</table>
+
 	<button class="btn btn-success" ng-click="rrsets=[]"><span class="glyphicon glyphicon-chevron-left"></span>Back</button>
-	<button class="btn btn-primary" ng-click="save()">Save</button>
+	<button class="btn btn-primary" ng-click="save()">OK</button>
 </div>
