@@ -41,7 +41,7 @@
 			views: {
 				'main@p': {
 					templateUrl: 'zones/zones.html',
-					controller: 'ZoneCtrl',
+					controller: 'ZonesCtrl',
 				}
 			},
 			data: {

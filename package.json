@@ -1,6 +1,6 @@
 {
   "name": "powr",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "PowerDNS API Frontend",
   "main": "src/app.js",
   "devDependencies": {
@@ -28,6 +28,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/porjo/ngpdns.git"
+    "url": "https://github.com/porjo/powr.git"
   }
 }

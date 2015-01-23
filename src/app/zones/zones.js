@@ -1,19 +1,23 @@
 
 angular.module('zoneControllers', ['ngAnimate'] )
 
-.controller('ZoneCtrl', function($scope, $state, $stateParams, $timeout, appConfig, api) {
+.controller('ZoneCtrl', function($scope, $state, $stateParams, $timeout, api) {
 
 	var masterZone = {};
 	$scope.edit = {};
+	$scope.save = {};
 
-	if($state.is('p.servers.server.zones')) {
-		$scope.server = $stateParams.server;
-		$scope.zones = api.Zones.query({ server: $stateParams.server }, function(data) {
-			// success
-		}, function(data) {
-			$scope.errMsg = "Error loading zones for server '" + $scope.server + "'. Msg: " + data.statusText;
-		});
-	} else if($state.is('p.servers.server.zones.zone')) {
+	$scope.$on('$stateChangeStart', function (e, toState, toParams) {
+		console.log("locationchange", toState, toParams, $scope.zoneForm.$dirty);
+		if ($scope.zoneForm.$dirty) {
+			var answer = confirm('Are you sure you want to navigate away from this page');
+			if (!answer) {
+				e.preventDefault();
+			}
+		}
+	});
+
+	if($state.is('p.servers.server.zones.zone')) {
 		api.Zones.get({ server: $stateParams.server, zone: $stateParams.zone }, function(data) {
 			masterZone = angular.copy(data);
 			$scope.zone = data;
@@ -29,10 +33,6 @@ angular.module('zoneControllers', ['ngAnimate'] )
 			$scope.errMsg = "Error loading records for zone '" + $stateParams.zone + "'. Msg: " + data.statusText;
 		});
 	}
-
-	$scope.loadZone = function(zone) {
-		$state.go('.zone', {zone: zone.name});
-	};
 
 	$scope.confirm = function() {
 
@@ -100,7 +100,6 @@ angular.module('zoneControllers', ['ngAnimate'] )
 			'type': 'A',
 			'disabled': false,
 			'priority': 0,
-			'new': true
 		};
 
 		$scope.zone.records.push(record);
@@ -114,7 +113,55 @@ angular.module('zoneControllers', ['ngAnimate'] )
 				$scope.rrsets = [];
 				$state.reload();
 				console.log("save success", data);
+			},function(result) {
+				if(result.data !== '') {
+					$scope.save.msg = result.data;
+				} else {
+					$scope.save.msg = 'There was an unspecified error saving the zone';
+				}
 			});
+
 		}
+	};
+})
+
+.controller('ZonesCtrl', function($scope, $state, $stateParams, api) {
+
+	$scope.save = {};
+	$scope.zone = {
+		kind: 'Master'
+	};
+
+	if($state.is('p.servers.server.zones')) {
+		$scope.server = $stateParams.server;
+		$scope.zones = api.Zones.query({ server: $stateParams.server }, function(data) {
+			// success
+		}, function(data) {
+			$scope.errMsg = "Error loading zones for server '" + $scope.server + "'. Msg: " + data.statusText;
+		});
+	}
+
+	$scope.loadZone = function(zone) {
+		$state.go('.zone', {zone: zone.name});
+	};
+
+	$scope.save = function() {
+		console.log("zone save before", $scope.zoneForm);
+		var zone = new api.Zones();
+		zone.name = $scope.zone.name;
+		zone.type = "Zone";
+		zone.kind = $scope.zone.kind;
+		zone.nameservers = [];
+
+		zone.$save({server: $stateParams.server},function(data) {
+		console.log("zone save", data);
+			$scope.zones.push(zone);
+		},function(result) {
+			if(result.data !== '') {
+				$scope.save.msg = result.data;
+			} else {
+				$scope.save.msg = 'There was an unspecified error saving the zone';
+			}
+		});
 	};
 });

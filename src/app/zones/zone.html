@@ -81,6 +81,9 @@
 		</tbody>
 	</table>
 
+	<p>
 	<button class="btn btn-success" ng-click="rrsets=[]"><span class="glyphicon glyphicon-chevron-left"></span>Back</button>
 	<button class="btn btn-primary" ng-click="save()">OK</button>
+	</p>
+	<p ng-show="save.msg" class="alert alert-warning">{{save.msg}}</p>
 </div>

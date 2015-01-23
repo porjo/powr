@@ -6,23 +6,20 @@
   ],
   "ignore": [
     "**/.*",
-    "screenshots",
     "node_modules",
     "bower_components",
-    "test*",
-    "demo*",
     "Gruntfile.js",
     "package.json"
   ],
   "dependencies": {
-    "jquery": "latest",
+    "jquery": "2.1.x",
     "angular": "1.3.x",
     "angular-resource": "1.3.x",
     "angular-cookies": "1.3.x",
     "angular-animate": "1.3.x",
     "angular-sanitize": "1.3.x",
-    "angular-ui-router": "latest",
-    "bootstrap": "latest"
+    "angular-ui-router": "0.2.x",
+    "bootstrap": "3.3.x"
   },
   "devDependencies": {
     "angular-mocks": "1.3.x"
