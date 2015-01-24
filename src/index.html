@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en" ng-app="app">
+<html lang="en" ng-app="<!-- @echo appName -->">
 	<head>
-		<base href="/">
+		<base href="<!-- @echo baseHref -->">
 	    	<meta name="fragment" content="!" />
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<title ng-bind="page.title"><!-- @echo project --></title>
-		<link rel="shortcut icon" href="/img/favicon.ico" />
-		<link rel="stylesheet" href="/css/app.css"> <!-- includes Bootstrap via LESS -->
+		<link rel="shortcut icon" href="img/favicon.ico" />
+		<link rel="stylesheet" href="css/app.css"> <!-- includes Bootstrap via LESS -->
 	</head>
 	<body>
 		<div class="container">
@@ -16,16 +16,18 @@
 		</div>
 
 		<!-- 3rd party libraries -->
-		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="/bower_components/angular/angular.js"></script>
-		<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
-		<script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
-		<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
-		<script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-		<script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+		<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+		<script src="bower_components/angular-animate/angular-animate.min.js"></script>
+		<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+		<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+		<!-- @echo mocksUrl -->
 		
 		<!-- App code -->
-		<script src="/js/<!-- @echo jsname -->"></script>
+		<script src="js/<!-- @echo jsname -->"></script>
 
 	</body>
 </html>

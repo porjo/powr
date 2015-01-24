@@ -7,6 +7,8 @@ angular.module('zoneControllers', ['ngAnimate'] )
 	$scope.edit = {};
 	$scope.save = {};
 
+	/*
+	// Catch unsaved changes
 	$scope.$on('$stateChangeStart', function (e, toState, toParams) {
 		console.log("locationchange", toState, toParams, $scope.zoneForm.$dirty);
 		if ($scope.zoneForm.$dirty) {
@@ -16,9 +18,11 @@ angular.module('zoneControllers', ['ngAnimate'] )
 			}
 		}
 	});
+   */
 
 	if($state.is('p.servers.server.zones.zone')) {
 		api.Zones.get({ server: $stateParams.server, zone: $stateParams.zone }, function(data) {
+			console.log("get zone", data);
 			masterZone = angular.copy(data);
 			$scope.zone = data;
 			// success
@@ -29,8 +33,8 @@ angular.module('zoneControllers', ['ngAnimate'] )
 					$scope.showHelp = false;
 				},5000);
 			},500);
-		}, function(data) {
-			$scope.errMsg = "Error loading records for zone '" + $stateParams.zone + "'. Msg: " + data.statusText;
+		}, function(result) {
+			$scope.errMsg = "Error loading zone '" + $stateParams.zone + "': " + result.data;
 		});
 	}
 
@@ -135,9 +139,11 @@ angular.module('zoneControllers', ['ngAnimate'] )
 	if($state.is('p.servers.server.zones')) {
 		$scope.server = $stateParams.server;
 		$scope.zones = api.Zones.query({ server: $stateParams.server }, function(data) {
+			console.log("get zones", $scope.zones);
 			// success
 		}, function(data) {
-			$scope.errMsg = "Error loading zones for server '" + $scope.server + "'. Msg: " + data.statusText;
+		}, function(result) {
+			$scope.errMsg = "Error loading zones for server '" + $scope.server + "': " + result.data;
 		});
 	}
 

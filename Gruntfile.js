@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
 	grunt.registerTask('build-dist', [ 'clean', 'continuous-common-minjs', 'css', 'copy:assets', 'copy:bower', 'copy:vendor']);
+	grunt.registerTask('build-dist-mocks', [ 'clean', 'continuous-common-mocks', 'css', 'copy:assets', 'copy:bower', 'copy:vendor']);
 
 	grunt.registerTask('unit-tests', [ 'karma:continuous']);
 	grunt.registerTask('coverage', [ 'coverage']);
@@ -13,6 +14,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('continuous-common-minjs', [ 'preprocess:minjs', 'clean:js', 'ngtemplates', 'concat:js', 'ngAnnotate:minjs', 'uglify' ]);
 	grunt.registerTask('continuous-common', [ 'preprocess:js', 'clean:js', 'ngtemplates', 'concat:js', 'ngAnnotate:js' ]);
+	grunt.registerTask('continuous-common-mocks', [ 'preprocess:mocks', 'clean:js', 'ngtemplates', 'concat:js', 'ngAnnotate:js' ]);
 	
 	grunt.registerTask('css', ['concat:less', 'less:development', 'copy:css']);
 
@@ -42,6 +44,22 @@ module.exports = function(grunt) {
 					context : {
 						jsname : '<%= jsname %>.js',
 						project : '<%= pkg.name %>',
+						mocksUrl : '',
+						appName : 'app',
+						baseHref : '/',
+					}
+				}
+			},
+			mocks: {
+				src : 'src/index.html',
+				dest : 'dist/index.html',
+				options : {
+					context : {
+						jsname : '<%= jsname %>.js',
+						project : '<%= pkg.name %>',
+						mocksUrl : '<script src="bower_components/angular-mocks/angular-mocks.js"></script>',
+						appName : 'appDev',
+						baseHref : '/powr/',
 					}
 				}
 			},
@@ -52,6 +70,9 @@ module.exports = function(grunt) {
 					context : {
 						jsname : '<%= jsname %>.min.js',
 						project : '<%= pkg.name %>',
+						mocksUrl : '',
+						appName : 'app',
+						baseHref : '/',
 					}
 				}
 			}
@@ -179,11 +200,13 @@ module.exports = function(grunt) {
 			},
 			html: {
 				files: ['src/**/*.html'],
-				tasks: ['continuous-common'],
+				//tasks: ['continuous-common'],
+				tasks: ['continuous-common-mocks'],
 			},
 			js: {
 				files: ['src/**/*.js'],
-				tasks: ['continuous-js', 'continuous-common'],
+				//tasks: ['continuous-js', 'continuous-common'],
+				tasks: ['continuous-js', 'continuous-common-mocks'],
 			},
 			assets: {
 				files: ['src/assets/**'],

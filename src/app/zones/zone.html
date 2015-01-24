@@ -1,5 +1,7 @@
 <h3>{{ zone.name }}</h3>
 
+<div ng-show="errMsg" class="alert alert-danger" role="alert">{{errMsg}}</div>
+
 <div ng-hide="rrsets.length">
 	<div class="edit-head">
 		<p>

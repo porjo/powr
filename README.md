@@ -6,10 +6,14 @@ Web UI frontend for PowerDNS API interface
 
 Current features:
 
-- view zones + records
-- add, delete, edit records
+- view, add zones
+- view, add, delete, edit zone records
 
-<a href="http://porjo.github.io/powr/screenshot2.png"><img src="http://porjo.github.io/powr/screenshot2.png" width="90%"></a>
+### Demo
+
+View a live demo at [http://porjo.github.io/powr](http://porjo.github.io/powr)
+
+The demo uses a mock backend.
 
 ### Web Server
 

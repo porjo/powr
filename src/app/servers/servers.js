@@ -8,6 +8,7 @@ angular.module('serverControllers', [] )
 		$state.go('.zones', {server: $stateParams.server});
 	} else {
 		$scope.servers = api.Servers.query();
+		console.log("servers", $scope.servers);
 	}
 
 	$scope.viewZones = function(server) {

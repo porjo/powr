@@ -12,6 +12,9 @@
 		'zoneControllers',
 	]);
 
+
+	// API backend location. If blank, then use same host that
+	// served Powr HTML content
 	app.constant('appConfig', {
 		apiURL:  '',
 	});
@@ -83,6 +86,96 @@
 			}
 		});
 
+	});
+
+	//-------------------------------------------------------------
+	// Below is for running Powr without real backend. 
+	// Enable with: 'grunt build-dist-mocks'
+	//
+	// Credit to http://opensourceconnections.com/blog/2013/09/16/prototype-angular-uis-without-a-backend/
+	// ------------------------------------------------------------
+	var appDev = angular.module('appDev', [
+		'app',
+		'ngMockE2E',
+	]);
+
+	appDev.run(function ($httpBackend, $timeout) {
+		var regexpUrl = function (regexp) {
+			return {
+				test: function (url) {
+					this.matches = url.match(regexp);
+					return this.matches && this.matches.length > 0;
+				}
+
+			};
+		};
+
+		var zones = [{
+			id: '0',
+			name: 'example.com',
+			kind: 'Master',
+			masters: [],
+			serial: 123456789,
+			dnssec: false,
+			records: [],
+		}];
+
+		$httpBackend.when('GET', regexpUrl(/servers$/))
+		.respond(function (method, url, data) {
+			return [200, [{id: 'localhost'}]];
+		});
+
+		$httpBackend.when('GET', regexpUrl(/servers\/[^\/]+\/zones$/))
+		.respond(function (method, url, data) {
+			return [200, zones];
+		});
+
+		$httpBackend.when('GET', regexpUrl(/servers\/[^\/]+\/zones\/[^\/]+$/))
+		.respond(function (method, url, data) {
+			var zone = url.split('/').slice(-1)[0];
+			for(var i=0; i < zones.length; i++) {
+				if( zones[i].name === zone ) {
+					return [200, zones[i]];
+				}
+			}
+			return [404,'zone not found'];
+		});
+
+		$httpBackend.when('POST', regexpUrl(/servers\/[^\/]+\/zones$/))
+		.respond(function (method, url, data) {
+			var zone = angular.fromJson(data);
+			zone.id = zones.length;
+			zone.records = [];
+			zones.push(zone);
+			return [200, data];
+		});
+
+		$httpBackend.when('PATCH', regexpUrl(/servers\/[^\/]+\/zones\/[^\/]+$/))
+		.respond(function (method, url, data) {
+			var patch = angular.fromJson(data);
+			for(var i=0; i < zones.length; i++) {
+				if( zones[i].name === patch.rrsets[0].name ) {
+					if(!angular.isDefined(patch.rrsets[0].records)) {
+						patch.rrsets[0].records = [];
+					}
+					zones[i].records = patch.rrsets[0].records;
+					return [200, ''];
+				}
+			}
+			return [404,'zone not found'];
+		});
+
+		// A "run loop" of sorts to get httpBackend to
+		// issue responses and trigger the client code's callbacks
+		var flushBackend = function () {
+			try {
+				$httpBackend.flush();
+			} catch (err) {
+				// ignore that there's nothing to flush
+			}
+			$timeout(flushBackend, 500);
+		};
+		$timeout(flushBackend, 500);
 	});
 
 }());
