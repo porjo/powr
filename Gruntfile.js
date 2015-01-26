@@ -200,13 +200,13 @@ module.exports = function(grunt) {
 			},
 			html: {
 				files: ['src/**/*.html'],
-				//tasks: ['continuous-common'],
-				tasks: ['continuous-common-mocks'],
+				tasks: ['continuous-common'],
+				//tasks: ['continuous-common-mocks'],
 			},
 			js: {
 				files: ['src/**/*.js'],
-				//tasks: ['continuous-js', 'continuous-common'],
-				tasks: ['continuous-js', 'continuous-common-mocks'],
+				tasks: ['continuous-js', 'continuous-common'],
+				//tasks: ['continuous-js', 'continuous-common-mocks'],
 			},
 			assets: {
 				files: ['src/assets/**'],

@@ -7,6 +7,7 @@ angular.module('zoneControllers', ['ngAnimate'] )
 	$scope.edit = {};
 	$scope.save = {};
 
+
 	/*
 	// Catch unsaved changes
 	$scope.$on('$stateChangeStart', function (e, toState, toParams) {
@@ -136,14 +137,20 @@ angular.module('zoneControllers', ['ngAnimate'] )
 		kind: 'Master'
 	};
 
+	// Masters for new slave zone
+	$scope.zoneMasters = [
+		{ip: ''},
+		{ip: ''},
+		{ip: ''}
+	];
+
 	if($state.is('p.servers.server.zones')) {
-		$scope.server = $stateParams.server;
 		$scope.zones = api.Zones.query({ server: $stateParams.server }, function(data) {
 			console.log("get zones", $scope.zones);
 			// success
 		}, function(data) {
 		}, function(result) {
-			$scope.errMsg = "Error loading zones for server '" + $scope.server + "': " + result.data;
+			$scope.errMsg = "Error loading zones for server '" + $stateParams.server + "': " + result.data;
 		});
 	}
 
@@ -152,7 +159,11 @@ angular.module('zoneControllers', ['ngAnimate'] )
 	};
 
 	$scope.save = function() {
-		console.log("zone save before", $scope.zoneForm);
+		console.log("save, form", $scope.zoneForm);
+		return;
+
+		/*
+		$scope.showAddZone = false;
 		var zone = new api.Zones();
 		zone.name = $scope.zone.name;
 		zone.type = "Zone";
@@ -167,6 +178,24 @@ angular.module('zoneControllers', ['ngAnimate'] )
 				$scope.save.msg = result.data;
 			} else {
 				$scope.save.msg = 'There was an unspecified error saving the zone';
+			}
+		});
+	   */
+	};
+
+	$scope.delete = function(zone, $event) {
+		// prevent row click from propagating
+		$event.stopPropagation();
+
+		var answer = confirm('Are you sure you want to delete zone "' + zone.name + '"?\nALL RECORDS WILL BE DELETED!');
+		if (!answer) {
+			return;
+		}
+		zone.$delete({server: $stateParams.server},function(data) {
+			for(var i=0; i < $scope.zones.length; i++) {
+				if(zone.name === $scope.zones[i].name) {
+					$scope.zones.splice(i, 1);
+				}
 			}
 		});
 	};

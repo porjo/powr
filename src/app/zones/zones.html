@@ -10,6 +10,7 @@
 			<th>Serial</th>
 			<th>Dnssec</th>
 			<th>Masters</th>
+			<th>Delete</th>
 		</thead>
 	</tr>
 	<tbody>
@@ -19,6 +20,7 @@
 		<td>{{zone.serial}}</td>
 		<td>{{zone.dnssec}}</td>
 		<td>{{zone.masters}}</td>
+		<td><a href ng-click="delete(zone, $event)">Delete</a></td>
 	</tr>
 	</tbody>
 </table>
@@ -35,6 +37,14 @@
 				<option value="Native">Native</option>
 				<option value="Slave">Slave</option>
 			</select>
+		</div>
+		<div class="form-group" ng-show="zone.kind=='Slave'">
+			<label>Masters</label>
+			<div ng-repeat="master in zoneMasters">
+				<ng-form name="masterForm">
+				<input type="text" ng-model="master.ip" name="master">
+				</ng-form>
+			</div>
 		</div>
 		<button type="submit" class="btn btn-primary">Save</button>
 	</form>
