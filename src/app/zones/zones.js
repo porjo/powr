@@ -133,9 +133,6 @@ angular.module('zoneControllers', ['ngAnimate'] )
 .controller('ZonesCtrl', function($scope, $state, $stateParams, api) {
 
 	$scope.save = {};
-	$scope.zone = {
-		kind: 'Master'
-	};
 
 	// Masters for new slave zone
 	$scope.zoneMasters = [
@@ -158,16 +155,30 @@ angular.module('zoneControllers', ['ngAnimate'] )
 		$state.go('.zone', {zone: zone.name});
 	};
 
-	$scope.save = function() {
-		console.log("save, form", $scope.zoneForm);
-		return;
+	$scope.addZone = function() {
+		$scope.zone = {
+			kind: 'Master'
+		};
+		$scope.showAddZone = true;
+	};
 
-		/*
+	$scope.save = function() {
+
+		if($scope.zone.kind === "Slave" && !angular.isDefined($scope.zone.masters)) {
+			$scope.save.msg = "You must specify at least one nameserver";
+			return;
+		}
+
 		$scope.showAddZone = false;
 		var zone = new api.Zones();
 		zone.name = $scope.zone.name;
 		zone.type = "Zone";
 		zone.kind = $scope.zone.kind;
+		zone.masters = [];
+		angular.forEach($scope.zone.masters,function(val,key) {
+			zone.masters.push(val);
+		});
+		// Api requires nameservers (can be empty)
 		zone.nameservers = [];
 
 		zone.$save({server: $stateParams.server},function(data) {
@@ -180,7 +191,6 @@ angular.module('zoneControllers', ['ngAnimate'] )
 				$scope.save.msg = 'There was an unspecified error saving the zone';
 			}
 		});
-	   */
 	};
 
 	$scope.delete = function(zone, $event) {

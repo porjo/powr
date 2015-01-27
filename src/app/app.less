@@ -40,8 +40,15 @@ html {
 td.ng-dirty {
 	background-color: #CCFFCC;
 }
-td.ng-invalid {
+td.ng-invalid, input.ng-invalid {
 	background-color: #FF9999;
+}
+
+.zone-master {
+	border-radius: 4px;
+	background-color: #ddd;
+	padding: 5px;
+	margin: 2px;
 }
 
 .edit-head {
@@ -57,7 +64,6 @@ td.ng-invalid {
 .slidedown {
 	transition: all ease-in 1s;
 }
-
 
 .slidedown.ng-hide {
 	top: -200px;

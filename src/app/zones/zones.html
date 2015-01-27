@@ -19,16 +19,20 @@
 		<td>{{zone.kind}}</td>
 		<td>{{zone.serial}}</td>
 		<td>{{zone.dnssec}}</td>
-		<td>{{zone.masters}}</td>
+		<td>
+			<span class="zone-master" ng-repeat="master in zone.masters">{{master}}</span>
+		</td>
 		<td><a href ng-click="delete(zone, $event)">Delete</a></td>
 	</tr>
 	</tbody>
 </table>
-<div ng-show="showAddZone">
-	<form name="zoneForm" class="form-inline" ng-submit="save()" novalidate>
+<div ng-show="showAddZone" class="well">
+	<h3>Add Zone</h3>
+	<form name="zoneForm" ng-submit="save()" novalidate>
 		<div class="form-group">
 			<label>Domain name</label>
-			<input type="text" ng-model="zone.name" name="name">
+			<input class="form-control" type="text" ng-model="zone.name" name="name" host-name>
+			<p class="help-block" ng-show="zoneForm.name.$invalid">Invalid domain name</p>
 		</div>
 		<div class="form-group">
 			<label>Kind</label>
@@ -39,16 +43,18 @@
 			</select>
 		</div>
 		<div class="form-group" ng-show="zone.kind=='Slave'">
-			<label>Masters</label>
+			<label>Master Nameservers</label>
 			<div ng-repeat="master in zoneMasters">
 				<ng-form name="masterForm">
-				<input type="text" ng-model="master.ip" name="master">
+				<input class="form-control" type="text" ng-model="zone.masters[$index]" name="master" ip-address placeholder="Master IP {{$index + 1}}">
+				<p class="help-block" ng-show="masterForm.master.$invalid">Invalid IP Address</p>
 				</ng-form>
 			</div>
 		</div>
-		<button type="submit" class="btn btn-primary">Save</button>
+		<button type="submit" class="btn btn-primary" ng-disabled="zoneForm.$invalid">Save</button>
+		<p class="help-block" ng-show="zoneForm.$invalid">Fix errors before continuing</p>
 	</form>
 	<p ng-show="save.msg" class="alert alert-danger">{{save.msg}}</p>
 </div>
-<button class="btn btn-success" ng-hide="showAddZone" ng-click="showAddZone = true"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add</button>
+<button class="btn btn-success" ng-hide="showAddZone" ng-click="addZone()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add</button>
 </div>

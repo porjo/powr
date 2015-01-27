@@ -21,7 +21,6 @@ appDirectives.directive("contenteditable", function() {
 	};
 });
 
-//var INTEGER_REGEXP = /^\-?\d+$/;
 var HOSTNAME_REGEXP = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/;
 // TODO: more complete IPv4 + IPv6 regex
 var IP_REGEXP = /^[0-9A-Fa-f]+[:.]+[0-9A-Fa-f\.:]+$/;
@@ -147,6 +146,50 @@ appDirectives.directive('recordContent', function($compile) {
 				// it is invalid
 				scope.msg = "Invalid value";
 				return false;
+			};
+		}
+	};
+});
+
+appDirectives.directive('ipAddress', function() {
+	return {
+		require: 'ngModel',
+		link: function(scope, elm, attrs, ctrl) {
+			ctrl.$validators.ipAddress = function(modelValue, viewValue) {
+				if (ctrl.$isEmpty(modelValue)) {
+					return true;
+				}
+
+				viewValue = editableTrim(viewValue);
+				if (IP_REGEXP.test(viewValue)) {
+					ctrl.$setViewValue(viewValue);
+					return true;
+				}
+
+				return false;
+
+			};
+		}
+	};
+});
+
+appDirectives.directive('hostName', function() {
+	return {
+		require: 'ngModel',
+		link: function(scope, elm, attrs, ctrl) {
+			ctrl.$validators.hostName = function(modelValue, viewValue) {
+				if (ctrl.$isEmpty(modelValue)) {
+					return true;
+				}
+
+				viewValue = editableTrim(viewValue);
+				if (HOSTNAME_REGEXP.test(viewValue)) {
+					ctrl.$setViewValue(viewValue);
+					return true;
+				}
+
+				return false;
+
 			};
 		}
 	};
