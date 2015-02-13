@@ -123,7 +123,14 @@
 			masters: [],
 			serial: 123456789,
 			dnssec: false,
-			records: [],
+			records: [{
+				'content': '192.168.1.1',
+				'name': 'test.example.com',
+				'ttl': 86400,
+				'type': 'A',
+				'disabled': false,
+				'priority': 0,
+			}],
 		}];
 
 		$httpBackend.when('GET', regexpUrl(/servers$/))
