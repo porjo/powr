@@ -17,7 +17,7 @@ The demo uses a mock backend.
 
 ### Web Server
 
-PowerDNS does not currently support CORS which means that AngularJS cannot talk directly to it. For this reason, Powr includes a simple web server to a) server static files b) proxy JSON API requests to PowerDNS backend.
+PowerDNS authoratative server versions prior to v3.4.2 do not support CORS which means that browser-based Javascript cannot talk directly to it. Powr includes a simple web server to a) server static files b) proxy JSON API requests to PowerDNS backend.
 
 ### Usage
 

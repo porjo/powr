@@ -16,7 +16,9 @@
 	// API backend location. If blank, then use same host that
 	// served Powr HTML content
 	app.constant('appConfig', {
-		apiURL:  '',
+		apiURL:  'http://localhost:8080',
+		//apiURL:  'http://blahblah:8081',
+		//apiKey: 'quickbrownfox',
 	});
 
 	app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -86,6 +88,10 @@
 			}
 		});
 
+	});
+
+	app.config(function ($httpProvider) {
+		$httpProvider.interceptors.push('authInterceptor');
 	});
 
 	//-------------------------------------------------------------

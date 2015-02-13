@@ -76,7 +76,7 @@ func main() {
 	var logger *negroni.Logger
 	var errLogger *log.Logger
 
-	html5mode := flag.Bool("html5mode", false, "On HTTP 404, serve index.html. Used with AngularJS html5mode.")
+	html5mode := flag.Bool("html5mode", false, "on HTTP 404, serve index.html. Used with AngularJS html5mode.")
 	flag.StringVar(&webRoot, "d", "public", "root directory of website")
 	flag.StringVar(&logFile, "l", "", "log requests to a file. Defaults to stdout")
 	flag.StringVar(&errLogFile, "e", "", "log errors to a file. Defaults to stdout")
@@ -86,6 +86,7 @@ func main() {
 	flag.IntVar(&portTLS, "s", 8081, "HTTPS port")
 	forceTLS := flag.Bool("forceTLS", false, "Force HTTPS")
 	stripPrefix := flag.String("stripPrefix", "", "path to strip from incoming requests")
+	useGzip := flag.Bool("gzip", false, "enable gzip compression")
 	flag.StringVar(&pdns.Host, "pdnsHost", "localhost", "PowerDNS API hostname or IP")
 	flag.IntVar(&pdns.Port, "pdnsPort", 8081, "PowerDNS API HTTP port")
 	flag.StringVar(&pdns.Key, "pdnsAPIKey", "", "PowerDNS API key")
@@ -146,7 +147,10 @@ func main() {
 		log.Printf("Force TLS enabled\n")
 		n.Use(negroni.HandlerFunc(redir))
 	}
-	n.Use(gzip.Gzip(gzip.DefaultCompression))
+
+	if *useGzip {
+		n.Use(gzip.Gzip(gzip.DefaultCompression))
+	}
 
 	if *html5mode {
 		log.Printf("HTML5 mode enabled\n")
@@ -219,8 +223,8 @@ func (sr *html5mode) WriteHeader(status int) {
 
 func (p *pdnsBackend) Setup() {
 	p.Director = func(req *http.Request) {
-		req.Header.Add("X-API-Key", pdns.Key)
-		req.Host = pdns.Host
+		req.Header.Set("X-API-Key", pdns.Key)
+		req.Host = p.Host
 		req.URL.Scheme = "http"
 		req.URL.Host = fmt.Sprintf("%s:%d", p.Host, p.Port)
 	}
