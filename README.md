@@ -10,13 +10,6 @@ Powr is made up of browser-based Javascript (written in AngularJS) and a proxy/w
 
 ***Work in progress - Use at your own risk***
 
-### Features
-
-Currently supported DNS operations:
-
-- view, add zones
-- view, add, delete, edit zone records
-
 ### Demo
 
 View a live demo at [http://porjo.github.io/powr](http://porjo.github.io/powr)
@@ -26,23 +19,22 @@ The demo runs entirely in your browser, and uses a mock backend.
 ### Usage
 
 1. Configure your PowerDNS server to enable the API. For the authoratative server, that means adding the following to your `pdns.conf`:
-```
-experimental-json-interface=yes
-webserver=yes
-webserver-address=0.0.0.0
-experimental-api-key=changeme
-```
+	```
+	experimental-json-interface=yes
+	webserver=yes
+	webserver-address=0.0.0.0
+	experimental-api-key=changeme
+	```
 
-Consult the PowerDNS [documentation](http://doc.powerdns.com/md/httpapi/README/) for more information.
+	Consult the PowerDNS [documentation](http://doc.powerdns.com/md/httpapi/README/) for more information.
 
-2. Grab a [current build](https://github.com/porjo/powr/releases) and unpack the HTML files and proxy/webserver somewhere convenient.
+1. Grab a [current build](https://github.com/porjo/powr/releases) and unpack somewhere convenient.
 
-3. Run the proxy/webserver like so:
-```
-./powr -d dist/ -pdnsAPIKey=changeme -pdnsHost=myserver -pdnsPort=8081
-```
-
-4. Point your browser to `http://localhost:8080` (or whatever IP/hostname your server has)
+1. Run the proxy/webserver like so:
+	```
+	./powr -d dist/ -pdnsAPIKey=changeme -pdnsHost=myserver -pdnsPort=8081
+	```
+1. Point your browser to `http://localhost:8080` (or whatever IP/hostname your server has)
 
 *That's it!*
 
