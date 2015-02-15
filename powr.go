@@ -223,7 +223,7 @@ func (sr *html5mode) WriteHeader(status int) {
 
 func (p *pdnsBackend) Setup() {
 	p.Director = func(req *http.Request) {
-		req.Header.Set("X-API-Key", pdns.Key)
+		req.Header.Set("X-API-Key", p.Key)
 		req.Host = p.Host
 		req.URL.Scheme = "http"
 		req.URL.Host = fmt.Sprintf("%s:%d", p.Host, p.Port)

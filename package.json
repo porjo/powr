@@ -1,6 +1,6 @@
 {
   "name": "powr",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "PowerDNS API Frontend",
   "main": "src/app.js",
   "devDependencies": {
